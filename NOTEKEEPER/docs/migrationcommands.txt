@@ -1,0 +1,5 @@
+Add: dotnet ef migrations add Initial_Migration -c ApplicationDbContext  -p .\src\libraries\PSADMIN.Persistence  -s .\src\applications\PSADMIN.Api -o Migrations
+
+Update: dotnet ef database update -c ApplicationDbContext  -p .\src\libraries\PSADMIN.Persistence  -s .\src\applications\PSADMIN.Api
+
+Remove: dotnet ef migrations remove -c ApplicationDbContext  -p .\src\libraries\PSADMIN.Persistence  -s .\src\applications\PSADMIN.Api --force

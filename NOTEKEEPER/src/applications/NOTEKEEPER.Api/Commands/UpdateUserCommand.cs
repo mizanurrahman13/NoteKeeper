@@ -10,6 +10,8 @@ public class UpdateUserCommand : IRequest<int>
     public int Id { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public string PasswordHash { get; set; }
 }
 
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, int>
@@ -31,6 +33,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, int>
 
         user.Username = request.Username;
         user.Email = request.Email;
+        user.DateOfBirth = request.DateOfBirth;
+        //user.PasswordHash = request.PasswordHash;
 
         _unitOfWork.Users.Update(user);
         await _unitOfWork.SaveChangesAsync();

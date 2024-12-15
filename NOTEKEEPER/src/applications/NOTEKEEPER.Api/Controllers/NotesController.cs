@@ -3,11 +3,14 @@ using MediatR;
 using NOTEKEEPER.Api.Commands;
 using NOTEKEEPER.Api.Queries;
 using NOTEKEEPER.Api.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace NOTEKEEPER.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class NotesController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -22,6 +25,8 @@ public class NotesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateNoteCommand command)
     {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        command.UserId = userId;
         var noteId = await _mediator.Send(command);
         return Ok(noteId);
     }
@@ -29,14 +34,20 @@ public class NotesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
         var note = await _mediator.Send(new GetNoteByIdQuery { Id = id });
+        if (note == null || note.UserId != userId)
+        {
+            return Unauthorized();
+        }
         return Ok(note);
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var notes = await _unitOfWork.Notes.GetAllAsync();
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        var notes = await _unitOfWork.Notes.FindAsync(n => n.UserId == userId);
         return Ok(notes);
     }
 
@@ -48,6 +59,13 @@ public class NotesController : ControllerBase
             return BadRequest();
         }
 
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        var note = await _unitOfWork.Notes.GetByIdAsync(id);
+        if (note == null || note.UserId != userId)
+        {
+            return Unauthorized();
+        }
+
         await _mediator.Send(command);
         return NoContent();
     }
@@ -55,10 +73,11 @@ public class NotesController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
         var note = await _unitOfWork.Notes.GetByIdAsync(id);
-        if (note == null)
+        if (note == null || note.UserId != userId)
         {
-            return NotFound();
+            return Unauthorized();
         }
 
         _unitOfWork.Notes.Remove(note);
@@ -67,4 +86,5 @@ public class NotesController : ControllerBase
         return NoContent();
     }
 }
+
 

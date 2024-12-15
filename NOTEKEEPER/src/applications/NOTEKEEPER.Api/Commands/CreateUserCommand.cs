@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using NOTEKEEPER.Api.Entities;
+using NOTEKEEPER.Api.Exceptions;
 using NOTEKEEPER.Api.Repositories;
 
 namespace NOTEKEEPER.Api.Commands;
@@ -8,6 +9,8 @@ public class CreateUserCommand : IRequest<int>
 {
     public string Username { get; set; }
     public string Email { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public string PasswordHash { get; set; }
 }
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
@@ -21,10 +24,18 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
 
     public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        var existingUser = await _unitOfWork.Users.FindAsync(u => u.Email == request.Email);
+        if (existingUser.Any()) 
+        { 
+            throw new EmailAlreadyInUseException($"Email '{request.Email}' is already in use."); 
+        }
+
         var user = new User
         {
             Username = request.Username,
-            Email = request.Email
+            Email = request.Email,
+            DateOfBirth = request.DateOfBirth,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash),
         };
 
         await _unitOfWork.Users.AddAsync(user);

@@ -4,5 +4,5 @@ namespace NOTEKEEPER.Api.Repositories;
 
 public interface IUserRepository : IRepository<User>
 {
-    // Add any user-specific methods here if needed
+    Task<User> AuthenticateAsync(string username, string password);
 }

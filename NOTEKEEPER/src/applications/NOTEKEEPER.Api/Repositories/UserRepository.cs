@@ -1,4 +1,5 @@
-﻿using NOTEKEEPER.Api.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using NOTEKEEPER.Api.Contexts;
 using NOTEKEEPER.Api.Entities;
 
 namespace NOTEKEEPER.Api.Repositories;
@@ -9,5 +10,7 @@ public class UserRepository : Repository<User>, IUserRepository
     {
     }
 
-    // Add any user-specific methods here if needed
-}
+    public async Task<User> AuthenticateAsync(string username, string password)
+    { 
+         return await _context.Users.FirstOrDefaultAsync(u => u.Email == username); }
+    }

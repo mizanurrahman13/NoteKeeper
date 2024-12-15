@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NOTEKEEPER.Api.Contexts;
+using System.Linq.Expressions;
 
 namespace NOTEKEEPER.Api.Repositories;
 
@@ -20,6 +21,11 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task<IEnumerable<T>> GetAllAsync()
     {
         return await _context.Set<T>().ToListAsync();
+    }
+
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) 
+    { 
+        return await _context.Set<T>().Where(predicate).ToListAsync(); 
     }
 
     public async Task AddAsync(T entity)

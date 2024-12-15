@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NOTEKEEPER.Api.Contexts;
 
@@ -11,9 +12,11 @@ using NOTEKEEPER.Api.Contexts;
 namespace NOTEKEEPER.Api.Migrations
 {
     [DbContext(typeof(NoteKeeperContext))]
-    partial class NoteKeeperContextModelSnapshot : ModelSnapshot
+    [Migration("20241215155046_AddedPasswordandDOBField")]
+    partial class AddedPasswordandDOBField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
