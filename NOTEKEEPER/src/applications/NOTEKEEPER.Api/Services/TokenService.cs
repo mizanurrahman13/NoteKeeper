@@ -1,24 +1,25 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using NOTEKEEPER.Api.Entities;
-using NOTEKEEPER.Api.Security;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace NOTEKEEPER.Api.Services;
 
-public class TokenService
+public class TokenService: ITokenService
 {
     private readonly IConfiguration _configuration;
 
+    public TokenService()
+    {
+        
+    }
     public TokenService(IConfiguration configuration)
     {
         _configuration = configuration;
     }
 
-    public string GenerateToken(User user)
+    public virtual string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_configuration["JwtSetting:SecretKey"]);
@@ -39,4 +40,3 @@ public class TokenService
         return tokenHandler.WriteToken(token);
     }
 }
-
