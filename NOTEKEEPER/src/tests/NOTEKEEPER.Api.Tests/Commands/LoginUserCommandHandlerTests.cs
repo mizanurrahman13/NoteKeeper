@@ -91,7 +91,7 @@ public class LoginUserCommandHandlerTests
 {
     private Mock<IUnitOfWork> _unitOfWorkMock;
     private Mock<IUserRepository> _userRepositoryMock;
-    private Mock<TokenService> _tokenServiceMock;
+    private Mock<ITokenService> _tokenServiceMock;
     private LoginUserCommandHandler _handler;
 
     [SetUp]
@@ -101,7 +101,7 @@ public class LoginUserCommandHandlerTests
         _userRepositoryMock = new Mock<IUserRepository>();
 
         // Mock the TokenService
-        _tokenServiceMock = new Mock<TokenService>();
+        _tokenServiceMock = new Mock<ITokenService>();
 
         _unitOfWorkMock.SetupGet(u => u.Users).Returns(_userRepositoryMock.Object);
         _handler = new LoginUserCommandHandler(_unitOfWorkMock.Object, _tokenServiceMock.Object);

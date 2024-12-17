@@ -14,9 +14,9 @@ public class UsersController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
 
-    public UsersController(IMediator mediator, IUnitOfWork unitOfWork, TokenService tokenService)
+    public UsersController(IMediator mediator, IUnitOfWork unitOfWork, ITokenService tokenService)
     {
         _mediator = mediator;
         _unitOfWork = unitOfWork;

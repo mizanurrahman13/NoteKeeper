@@ -20,9 +20,9 @@ public class LoginResponse
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
 
-    public LoginUserCommandHandler(IUnitOfWork unitOfWork, TokenService tokenService)
+    public LoginUserCommandHandler(IUnitOfWork unitOfWork, ITokenService tokenService)
     {
         _unitOfWork = unitOfWork;
         _tokenService = tokenService;

@@ -10,10 +10,10 @@ public class TokenService: ITokenService
 {
     private readonly IConfiguration _configuration;
 
-    public TokenService()
-    {
+    //public TokenService()
+    //{
         
-    }
+    //}
     public TokenService(IConfiguration configuration)
     {
         _configuration = configuration;
