@@ -58,7 +58,6 @@ This template follows the 3-Tier Architecture, here Repository UnitOfWork and CQ
 
 - **.NET 9**
 - **CQRS Repository and UnitOfWork**
-- **Stored Procedure**
 - **MSSQL**
 - **EF Core**
 
