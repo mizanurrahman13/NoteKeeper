@@ -35,10 +35,10 @@ To get a local copy up and running, follow these simple steps.
    ```
 4. Migrations:
    ```sh
-   dotnet ef migrations add Initial_Migration -c ApplicationDbContext  -p .\src\libraries\PSADMIN.Persistence  -s .\src\applications\PSADMIN.Api -o Migrations
+   dotnet ef migrations add Initial_Migration -c ApplicationDbContext -s .\src\applications\NOTEKEEPER.Api -o Migrations
    ```
    ```sh
-   dotnet ef database update -c ApplicationDbContext  -p .\src\libraries\PSADMIN.Persistence  -s .\src\applications\PSADMIN.Api
+   dotnet ef database update -c ApplicationDbContext -s .\src\applications\NOTEKEEPER.Api
    ```
 
 ## Architecture Overview
